@@ -139,9 +139,8 @@ _cors_origins = config(
 )
 CORS_ALLOWED_ORIGINS = [o.strip() for o in _cors_origins.split(',') if o.strip()]
 
-# Geliştirme ortamında tüm origin'lere izin ver
-if DEBUG:
-    CORS_ALLOW_ALL_ORIGINS = True
+# Geliştirme ve ilk yayına alma aşamasında kolaylık olması için şimdilik tüm origin'lere izin veriyoruz
+CORS_ALLOW_ALL_ORIGINS = config('CORS_ALLOW_ALL', default=True, cast=bool)
 
 # ── Static & Media ────────────────────────────────────────────
 STATIC_URL  = '/static/'
