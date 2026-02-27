@@ -1,0 +1,34 @@
+services:
+  - type: web
+    name: serverhub-api
+    runtime: python
+    region: frankfurt     # Türkiye'ye en yakın Render bölgesi
+    plan: free
+    buildCommand: >
+      pip install -r requirements.txt &&
+      python manage.py collectstatic --noinput &&
+      python manage.py migrate
+    startCommand: gunicorn serverhub.wsgi:application --bind 0.0.0.0:$PORT --workers 2
+    healthCheckPath: /api/v1/servers/
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true           # Render otomatik güçlü anahtar üretir
+      - key: DEBUG
+        value: "False"
+      - key: ALLOWED_HOSTS
+        value: ".onrender.com"
+      - key: CORS_ORIGINS
+        value: "https://serverhub.netlify.app"   # ← Netlify URL'ini buraya yaz
+      - key: DATABASE_URL
+        fromDatabase:
+          name: serverhub-db
+          property: connectionString
+      - key: PYTHON_VERSION
+        value: "3.11.0"
+
+databases:
+  - name: serverhub-db
+    plan: free
+    region: frankfurt
+    databaseName: serverhub
+    user: serverhub_user

@@ -1,0 +1,20 @@
+# ── Django Core ───────────────────────────────────────────────
+Django==5.0.2
+djangorestframework==3.14.0
+django-cors-headers==4.3.1
+Pillow==10.2.0
+python-decouple==3.8
+
+# ── Veritabanı ────────────────────────────────────────────────
+psycopg2-binary==2.9.9
+dj-database-url==2.1.0         # DATABASE_URL parse eder (Render için zorunlu)
+
+# ── Production Sunucu ─────────────────────────────────────────
+gunicorn==21.2.0               # WSGI server (Render'ın çalıştırdığı)
+whitenoise==6.6.0              # Static dosyaları Django'dan serve eder
+
+# ── Scraper ───────────────────────────────────────────────────
+requests==2.31.0
+beautifulsoup4==4.12.3
+lxml==5.1.0
+schedule==1.2.1
