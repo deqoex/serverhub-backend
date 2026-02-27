@@ -11,7 +11,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # ── Güvenlik ──────────────────────────────────────────────────
 SECRET_KEY = config('SECRET_KEY', default='django-insecure-SADECE-GELISTIRME-ICIN')
-DEBUG      = config('DEBUG', default=True, cast=bool)
+DEBUG      = True # Hata detaylarını görebilmek için geçici olarak aktifleştirdik
 
 ALLOWED_HOSTS = config(
     'ALLOWED_HOSTS',
@@ -142,12 +142,17 @@ CORS_ALLOWED_ORIGINS = [o.strip() for o in _cors_origins.split(',') if o.strip()
 # Geliştirme ve ilk yayına alma aşamasında kolaylık olması için şimdilik tüm origin'lere izin veriyoruz
 CORS_ALLOW_ALL_ORIGINS = config('CORS_ALLOW_ALL', default=True, cast=bool)
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://serverhub-api.onrender.com',
+    'https://snazzy-malabi-1c55bc.netlify.app',
+]
+
 # ── Static & Media ────────────────────────────────────────────
 STATIC_URL  = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # WhiteNoise — statik dosyaları sıkıştırır, cache'ler
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 MEDIA_URL  = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
