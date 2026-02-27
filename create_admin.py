@@ -14,11 +14,14 @@ ADMIN_USER = "admin"
 
 def create_admin():
     try:
-        if not User.objects.filter(email=ADMIN_EMAIL).exists():
+        user = User.objects.filter(email=ADMIN_EMAIL).first()
+        if not user:
             User.objects.create_superuser(ADMIN_USER, ADMIN_EMAIL, ADMIN_PASS)
             print(f"✅ Basarili: Admin hesabı olusturuldu ({ADMIN_EMAIL})")
         else:
-            print("ℹ️ Bilgi: Admin hesabı zaten mevcut.")
+            user.set_password(ADMIN_PASS)
+            user.save()
+            print(f"🔄 Bilgi: Admin şifresi güncellendi.")
     except Exception as e:
         print(f"❌ Hata: {e}")
 
